@@ -5,7 +5,7 @@ import { check } from 'express-validator';
  * @param {string} field
  * @returns {object} returns an object
  */
-const checkTemplate = (field) => check(field).exists({
+export const checkTemplate = (field) => check(field).exists({
   checkNull: true,
   checkFalsy: true
 });

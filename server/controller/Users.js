@@ -83,4 +83,37 @@ export default class Users {
       return Response.error({ req, res, statusCode: 500, data: error });
     }
   }
+
+  /**
+   * @description confirm users email
+   * @param {object} req - request object
+   * @param {object} res - response object
+   * @return {undefined}
+   */
+  static async login(req, res) {
+    try {
+      const { email, password } = req.body;
+      const loginUser = await User.findOne({ where: { email } });
+      if (loginUser) {
+        const isPasswordCorrect = Helpers.decryptHash(password, loginUser.password);
+        if (isPasswordCorrect) {
+          delete loginUser.dataValues.password;
+          return Response.success({ req,
+            res,
+            statusCode: 200,
+            data: {
+              customer: { ...loginUser.dataValues },
+              accessToken: Helpers.generateTimedToken(loginUser, '2d'),
+              expiresIn: '48 hours',
+              message: 'User successfully logged in'
+            }
+          });
+        }
+        return Response.error({ req, res, statusCode: 401, data: { message: 'Wrong email or password.' } });
+      }
+      return Response.error({ req, res, statusCode: 401, data: { message: 'User does not exist.' } });
+    } catch (error) {
+      return Response.error({ req, res, statusCode: 500, data: { error } });
+    }
+  }
 }
