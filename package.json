@@ -53,7 +53,7 @@
     "helmet": "^3.20.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
-    "nodemailer": "^6.3.0",
+    "nodemailer": "^7.0.7",
     "nodemailer-smtp-transport": "^2.7.4",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
